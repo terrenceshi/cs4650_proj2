@@ -29,16 +29,19 @@ def create_data_loader(data, batchSize, shuffle):
     # batch_size 1 for this project
     return DataLoader(ds, batch_size=batchSize, shuffle=shuffle)
 
-def split_train_val(data, props=[.8, .2]):
-    assert round(sum(props), 2) == 1 and len(props) == 2
-    # return values
-    train_df, val_df = None, None
+def split_train_val(data, props=[.8, .1, .1]):
 
-    ## YOUR CODE STARTS HERE (~6-10 lines of code)
-    # hint: you can use df.iloc to slice into specific indexes
-    size = df.shape[0]
-    firstNum = int(size * props[0])
-    train_df, val_df = df.iloc[0: firstNum], df.iloc[firstNum: size]
-    ## YOUR CODE ENDS HERE ##
+    length = len(data)
 
-    return train_df, val_df
+    firstSplit = int(length * props[0])
+
+    secondSplit = int(length * props[1]) + firstSplit
+
+    #print('firstSplit:',firstSplit)
+    #print('secondSplit:',secondSplit)
+
+    trainData = data[0 : firstSplit]
+    valData = data[firstSplit : secondSplit]
+    testData = data[secondSplit : length]
+
+    return trainData, valData, testData
