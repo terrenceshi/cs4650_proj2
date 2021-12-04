@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 class Net(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, n_layers=1):
@@ -13,7 +14,7 @@ class Net(nn.Module):
         self.gru = nn.GRU(hidden_size, hidden_size, n_layers)
         self.decoder = nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
+    def forward(self, x, hidden):
 		#basically copy pasted code from hw3
 	
         #Input input: torch Tensor of shape (1,)
@@ -37,3 +38,6 @@ class Net(nn.Module):
         
         return output, hidden
 
+
+    def init_hidden(self):
+        return torch.zeros(self.n_layers, 1, self.hidden_size)

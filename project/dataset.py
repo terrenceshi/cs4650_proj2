@@ -45,3 +45,13 @@ def split_train_val(data, props=[.8, .1, .1]):
     testData = data[secondSplit : length]
 
     return trainData, valData, testData
+
+
+#good function if you want to put a space between author names. since author names are written FirstnameLastname in the folders
+#used to need these functions but atm dont need them
+def getUpperIndices(s):
+    return [i for i, c in enumerate(s) if c.isupper()]
+
+def addASpace(s):
+    upIdx = getUpperIndices(s)[1]
+    s = s[:upIdx] + ' ' + s[upIdx:] #add space between author's first and last name
