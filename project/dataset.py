@@ -15,6 +15,7 @@ class Custom_Dataset(Dataset):
     def __getitem__(self, index: int):
 
         input = self.data[index][1]
+
         target = self.data[index][0]
 
         return {

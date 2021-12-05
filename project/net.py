@@ -28,7 +28,10 @@ class Net(nn.Module):
         #print('output:',output)
         
         output = self.encoder(x).view(1, 1, -1)
-        
+
+        print('test:',output.shape)
+        print('test:', output)
+
         output, hidden = self.gru(output, hidden)
         
         output = self.decoder(output[0])
