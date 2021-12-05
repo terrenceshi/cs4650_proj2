@@ -19,7 +19,7 @@ for i, row in df.iterrows():
     path = cwd + f'/{author}'
     if not os.path.exists(path):
         os.mkdir(path)
-    file = open(path + f'/{title}.txt', 'w')
+    file = open(path + f'/ATN - {title}.txt', 'w')
     file.write(text)
     file.close()
 
