@@ -26,11 +26,18 @@ class Net(nn.Module):
         #print('hidden:',hidden)
                 #print('output shape:',output.size()) #is 100 numbers
         #print('output:',output)
-        
-        output = self.encoder(x).view(1, 1, -1)
 
-        print('test:',output.shape)
+        print('test:', x.shape)
+        print('test:', x)
+
+        output = self.encoder(x) #.view(1, 1, -1)
+
+        #print('\ntest:',self.encoder(x).shape)
+        #print('test:', self.encoder(x)[0])
+
+        print('\ntest:',output.shape)
         print('test:', output)
+        #print('test:', output[0][0][553983])
 
         output, hidden = self.gru(output, hidden)
         
@@ -43,4 +50,4 @@ class Net(nn.Module):
 
 
     def init_hidden(self):
-        return torch.zeros(self.n_layers, 1, self.hidden_size)
+        return torch.zeros(self.n_layers, self.input_size, self.hidden_size)
