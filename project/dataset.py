@@ -2,6 +2,7 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
 import pandas as pd
+import random
 
 # Create Dataloader
 class Custom_Dataset(Dataset):
@@ -31,6 +32,8 @@ def create_data_loader(data, batchSize, shuffle):
     return DataLoader(ds, batch_size=batchSize, shuffle=shuffle)
 
 def split_train_val(data, props=[.8, .1, .1]):
+
+    random.shuffle(data)
 
     length = len(data)
 
