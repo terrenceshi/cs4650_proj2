@@ -20,19 +20,19 @@ class Net2(nn.Module):
 
         x = x.view(1, 1, -1)
 
-        print('\ninput:', x.shape)
-        print('x:',x)
+        #print('\ninput:', x.shape)
+        #print('x:',x)
 
         output, hn = self.rnn(x, hidden)
 
         #print('after rnn:',output)
 
-        print('\ntest (after rnn):', output.shape)
-        print('test:', output)
+        #print('\ntest (after rnn):', output.shape)
+        #print('test:', output)
 
         output = self.fc(output[:, -1, :])
 
-        print('\nafter linear:',output)
+        #print('\nafter linear:',output)
 
         #m = nn.Softmax(dim=1)
         #output = m(output)
