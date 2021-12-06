@@ -14,18 +14,32 @@ class Net2(nn.Module):
 
         self.fc = nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
+    def forward(self, x, hidden):
 
-        h0 = torch.zeros(self.n_layers, x.size(0), self.hidden_size)
         #h0 = h0.long()
 
         x = x.view(1, 1, -1)
 
-        output, hn = self.rnn(x, h0)
+        print('\ninput:', x.shape)
+        print('x:',x)
 
-        #print('\ntest:', output.shape)
-        #print('test:', output)
+        output, hn = self.rnn(x, hidden)
+
+        #print('after rnn:',output)
+
+        print('\ntest (after rnn):', output.shape)
+        print('test:', output)
 
         output = self.fc(output[:, -1, :])
+
+        print('\nafter linear:',output)
+
+        #m = nn.Softmax(dim=1)
+        #output = m(output)
         
-        return output
+        return output, hn
+
+    def init_hidden(self, xLen):
+        #return torch.zeros(self.n_layers, self.input_size, self.hidden_size)
+
+        return torch.zeros(self.n_layers, xLen, self.hidden_size)

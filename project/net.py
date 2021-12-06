@@ -14,6 +14,8 @@ class Net(nn.Module):
         self.gru = nn.GRU(hidden_size, hidden_size, n_layers)
         self.decoder = nn.Linear(hidden_size, output_size)
 
+        self.softmax = nn.Softmax(dim=1)
+
     def forward(self, x, hidden):
 		#basically copy pasted code from hw3
 	
@@ -21,33 +23,37 @@ class Net(nn.Module):
         #hidden: torch Tensor of shape (self.n_layers, 1, self.hidden_size)
         #Return output: torch Tensor of shape (1, self.output_size) 
         #and hidden: torch Tensor of shape (self.n_layers, 1, self.hidden_size)
-        
-        #print('input:',input.size()) #input is 1 number, has no dimensions
-        #print('hidden:',hidden)
-                #print('output shape:',output.size()) #is 100 numbers
-        #print('output:',output)
 
-        print('test:', x.shape)
-        print('test:', x)
+        #print('test:', x.shape)
+        #print('test:', x)
+
+        x = x.view(1, 1, -1)
 
         output = self.encoder(x) #.view(1, 1, -1)
 
-        #print('\ntest:',self.encoder(x).shape)
-        #print('test:', self.encoder(x)[0])
 
-        print('\ntest:',output.shape)
-        print('test:', output)
-        #print('test:', output[0][0][553983])
+        #print('\ntest:',output[0].shape)
+        #print('test:', output)
+
+        output = torch.squeeze(output, dim = 0)
 
         output, hidden = self.gru(output, hidden)
-        
-        output = self.decoder(output[0])
+
+        #print('\ntest:',torch.squeeze(output).shape)
+        #print('test:', output)
+
+        #output = self.decoder(output[0])
+        output = self.decoder(torch.squeeze(output, dim = 0))
         
         #print('output shape:',output.size())
         #print('hidden shape:',hidden.size())
+
+        output = self.softmax(output)
         
         return output, hidden
 
 
-    def init_hidden(self):
-        return torch.zeros(self.n_layers, self.input_size, self.hidden_size)
+    def init_hidden(self, xLen):
+        #return torch.zeros(self.n_layers, self.input_size, self.hidden_size)
+
+        return torch.zeros(self.n_layers, xLen, self.hidden_size)
